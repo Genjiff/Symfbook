@@ -13,6 +13,7 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -24,9 +25,17 @@ class UserType extends AbstractType
         $builder
             ->add('username', TextType::class)
             ->add('fullname', TextType::class)
-            ->add('email', EmailType::class)
-            ->add('password', PasswordType::class)
-            ->add('confirm_password', PasswordType::class, array('mapped' => false));
+            ->add('email', EmailType::class, array(
+                'invalid_message' => 'Email'
+            ))
+            ->add('plainPassword', RepeatedType::class, array(
+                'type' => PasswordType::class,
+                'first_name' => 'password',
+                'first_options' => array('label' => 'Password'),
+                'second_name' => 'confirmPassword',
+                'second_options' => array('label' => 'Confirm Password'),
+                'invalid_message' => 'Passwords don\'t match'
+            ));
     }
 
     public function configureOptions(OptionsResolver $resolver)

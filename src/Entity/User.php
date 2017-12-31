@@ -3,10 +3,14 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="UserRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(fields="email", message="Email already registered.")
+ * @UniqueEntity(fields="username", message="Username already taken")
  */
 class User implements UserInterface, \Serializable
 {
@@ -19,16 +23,20 @@ class User implements UserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", length=100, unique=true)
+     * @Assert\NotBlank()
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank()
      */
     private $fullname;
 
     /**
      * @ORM\Column(type="string", length=50, unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Email()
      */
     private $email;
 
@@ -37,6 +45,11 @@ class User implements UserInterface, \Serializable
      */
     private $password;
 
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Length(max=4096)
+     */
+    private $plainPassword;
     /**
      * @return mixed
      */
@@ -118,6 +131,22 @@ class User implements UserInterface, \Serializable
     }
 
     /**
+     * @return mixed
+     */
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * @param mixed $plainPassword
+     */
+    public function setPlainPassword($plainPassword): void
+    {
+        $this->plainPassword = $plainPassword;
+    }
+
+    /**
      * Returns the roles granted to the user.
      *
      * <code>
@@ -172,7 +201,9 @@ class User implements UserInterface, \Serializable
             $this->id,
             $this->username,
             $this->fullname,
-            $this->password
+            $this->email,
+            $this->password,
+            $this->plainPassword
         ));
     }
 
@@ -191,7 +222,9 @@ class User implements UserInterface, \Serializable
             $this->id,
             $this->username,
             $this->fullname,
-            $this->password
+            $this->email,
+            $this->password,
+            $this->plainPassword
             ) = unserialize($serialized);
     }
 }

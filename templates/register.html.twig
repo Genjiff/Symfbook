@@ -24,43 +24,40 @@ Registration Page
 {% block body %}
     <div class="register-box">
         <div class="register-logo">
-            <a href="#"><b>Admin</b>LTE</a>
+            <a href="/">Symfony Sample Site</a>
         </div>
 
         <div class="register-box-body">
             <p class="login-box-msg">Register on our portal:</p>
 
             {{ form_start(form) }}
-                {{ form_errors(form) }}
-
                 <div class="form-group has-feedback">
-                    {{ form_widget(form.username, {'attr': {'class': 'form-control', 'placeholder': form.username.vars.name|capitalize}}) }}
+                    {{ form_widget(form.username, {'attr': {'class': 'form-control', 'placeholder': 'Username'}}) }}
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                    <span class="help-block text-red">{{ form_errors(form.username) }}</span>
                 </div>
                 <div class="form-group has-feedback">
-                    {{ form_widget(form.fullname, {'attr': {'class': 'form-control', 'placeholder': form.fullname.vars.name|capitalize}}) }}
+                    {{ form_widget(form.fullname, {'attr': {'class': 'form-control', 'placeholder': 'Full Name'}}) }}
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                    <span class="help-block text-red">{{ form_errors(form.fullname) }}</span>
                 </div>
                 <div class="form-group has-feedback">
-                    {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': form.email.vars.name|capitalize}}) }}
+                    {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Email'}}) }}
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    <span class="help-block text-red">{{ form_errors(form.email) }}</span>
                 </div>
                 <div class="form-group has-feedback">
-                    {{ form_widget(form.password, {'attr': {'class': 'form-control', 'placeholder': form.password.vars.name|capitalize}}) }}
+                    {{ form_widget(form.plainPassword.password, {'attr': {'class': 'form-control', 'placeholder': 'Password'}}) }}
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    <span class="help-block text-red">{{ form_errors(form.plainPassword.password) }}</span>
                 </div>
                 <div class="form-group has-feedback">
-                    {{ form_widget(form.confirm_password, {'attr': {'class': 'form-control', 'placeholder': form.confirm_password.vars.name|capitalize}}) }}
+                    {{ form_widget(form.plainPassword.confirmPassword, {'attr': {'class': 'form-control', 'placeholder': 'Confirm Password'}}) }}
                     <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+                    <span class="help-block text-red">{{ form_errors(form.plainPassword.confirmPassword) }}</span>
                 </div>
                 <div class="row">
-                    <div class="col-xs-8">
-                        <div class="checkbox icheck">
-                            <label>
-                                <input type="checkbox"> I agree to the <a href="#">terms</a>
-                            </label>
-                        </div>
-                    </div>
+                    <div class="col-xs-8"></div>
                     <!-- /.col -->
                     <div class="col-xs-4">
                         <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
@@ -68,11 +65,55 @@ Registration Page
                     <!-- /.col -->
                 </div>
             {{ form_end(form) }}
-            <a href="login.html" class="text-center">I already have a membership</a>
+            <a href="/" class="text-center">I am already registered</a>
         </div>
         <!-- /.form-box -->
     </div>
     <!-- /.register-box -->
+
+    <!-- Success Modal -->
+    <div class="modal modal-success fade" id="modal-success">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Registration</h4>
+                </div>
+                <div class="modal-body">
+                    <p>User registered!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+    <!-- Error Modal -->
+    <div class="modal modal-danger fade" id="modal-error">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Registration</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Error</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
 {% endblock %}
 
 
@@ -91,5 +132,9 @@ Registration Page
                 increaseArea: '20%' /* optional */
             });
         });
+
+        {% if success %}
+            $('#modal-success').modal('show');
+        {% endif %}
     </script>
 {% endblock %}
