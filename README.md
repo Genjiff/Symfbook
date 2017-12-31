@@ -1,4 +1,4 @@
-# SymfonySampleSite
+# Symfbook
 Sample website to practice my Symfony Framework skills.
 
 This example is a social network site featuring some common capabilities, such as:
