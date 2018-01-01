@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Login
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="{{ asset('static/css/bootstrap.css') }}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ asset('static/css/font-awesome.min.css') }}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="{{ asset('static/css/ionicons.min.css') }}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{{ asset('static/css/AdminLTE.min.css') }}">
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+{% endblock %}
+
+{% block body %}
+    <div class="register-box">
+        <div class="register-logo">
+            <a href="/"><b>Symfbook</b></a>
+        </div>
+
+        <div class="register-box-body">
+            <p class="login-box-msg">Sign in to start your session:</p>
+
+            <form action="{{ path('app_login') }}" method="post">
+                <div class="form-group has-feedback">
+                    <input type="text" id="username" name="_username" class="form-control" placeholder="Username" value="{{ last_username }}"/>
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="password" id="password" name="_password" class="form-control" placeholder="Password" />
+                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                </div>
+                <div class="row">
+                    <div class="col-xs-8"></div>
+                    <!-- /.col -->
+                    <div class="col-xs-4">
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">Login</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </form>
+            <a href="{{ path('app_registration') }}" class="text-center">Register a new membership</a>
+        </div>
+        <!-- /.form-box -->
+    </div>
+    <!-- /.register-box -->
+
+    <!-- Error Modal -->
+    <div class="modal modal-danger fade" id="modal-error">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Login</h4>
+                </div>
+                <div class="modal-body">
+                    {% if error %}
+                        <p>{{ error.messageKey|trans(error.messageData, 'security')|capitalize }}</p>
+                    {% endif %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+{% endblock %}
+
+
+{% block js %}
+    <!-- jQuery 3 -->
+    <script src="{{ asset('static/js/jquery.min.js') }}"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="{{ asset('static/js/bootstrap.min.js') }}"></script>
+    <!-- iCheck -->
+    <script src="{{ asset('static/plugins/iCheck/icheck.min.js') }}"></script>
+    <script>
+        {% if error %}
+            $('#modal-error').modal('show');
+        {% endif %}
+    </script>
+{% endblock %}
