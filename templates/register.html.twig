@@ -24,7 +24,7 @@ Registration Page
 {% block body %}
     <div class="register-box">
         <div class="register-logo">
-            <a href="/">Symfony Sample Site</a>
+            <a href="/"><b>Symfbook</b></a>
         </div>
 
         <div class="register-box-body">
@@ -65,7 +65,7 @@ Registration Page
                     <!-- /.col -->
                 </div>
             {{ form_end(form) }}
-            <a href="/" class="text-center">I am already registered</a>
+            <a href="{{ path('app_login') }}" class="text-center">I am already registered</a>
         </div>
         <!-- /.form-box -->
     </div>
