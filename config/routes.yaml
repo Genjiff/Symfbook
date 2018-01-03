@@ -1,6 +1,6 @@
 index:
     path: /
-    controller: App\Controller\SecurityController::login
+    controller: App\Controller\SecurityController::indexPage
 
 app_registration:
     path: /register

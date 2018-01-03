@@ -1,5 +1,4 @@
 security:
-    # https://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     encoders:
         App\Entity\User:
             algorithm: bcrypt
@@ -16,6 +15,8 @@ security:
         main:
             anonymous: ~
             form_login:
+                default_target_path: app_profile
+                always_use_default_target_path: true
                 login_path: app_login
                 check_path: app_login
             logout:
@@ -25,10 +26,7 @@ security:
             http_basic: ~
             provider: db_provider
 
-            # activate different ways to authenticate
-
-            # http_basic: ~
-            # https://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
-
-            # form_login: ~
-            # https://symfony.com/doc/current/cookbook/security/form_login_setup.html
+    access_control:
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, role: IS_AUTHENTICATED_FULLY }
