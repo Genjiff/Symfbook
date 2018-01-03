@@ -1,12 +1,9 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}
-Registration Page
-{% endblock %}
-
-{% block stylesheets %}
-    {{ parent() }}
-
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="{{ asset('static/img/favicon.ico') }}" type="image/x-icon">
+    <title>Registration Page</title>
     <!-- Bootstrap 3.3.7 -->
     <link rel="stylesheet" href="{{ asset('static/css/bootstrap.css') }}">
     <!-- Font Awesome -->
@@ -19,9 +16,8 @@ Registration Page
     <link rel="stylesheet" href="{{ asset('static/plugins/iCheck/square/blue.css') }}">
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-{% endblock %}
-
-{% block body %}
+</head>
+<body class="register-page">
     <div class="register-box">
         <div class="register-logo">
             <a href="/"><b>Symfbook</b></a>
@@ -31,43 +27,42 @@ Registration Page
             <p class="login-box-msg">Register on our portal:</p>
 
             {{ form_start(form) }}
-                <div class="form-group has-feedback">
-                    {{ form_widget(form.username, {'attr': {'class': 'form-control', 'placeholder': 'Username'}}) }}
-                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                    <span class="help-block text-red">{{ form_errors(form.username) }}</span>
+            <div class="form-group has-feedback">
+                {{ form_widget(form.username, {'attr': {'class': 'form-control', 'placeholder': 'Username'}}) }}
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                <span class="help-block text-red">{{ form_errors(form.username) }}</span>
+            </div>
+            <div class="form-group has-feedback">
+                {{ form_widget(form.fullname, {'attr': {'class': 'form-control', 'placeholder': 'Full Name'}}) }}
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                <span class="help-block text-red">{{ form_errors(form.fullname) }}</span>
+            </div>
+            <div class="form-group has-feedback">
+                {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Email'}}) }}
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                <span class="help-block text-red">{{ form_errors(form.email) }}</span>
+            </div>
+            <div class="form-group has-feedback">
+                {{ form_widget(form.plainPassword.password, {'attr': {'class': 'form-control', 'placeholder': 'Password'}}) }}
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                <span class="help-block text-red">{{ form_errors(form.plainPassword.password) }}</span>
+            </div>
+            <div class="form-group has-feedback">
+                {{ form_widget(form.plainPassword.confirmPassword, {'attr': {'class': 'form-control', 'placeholder': 'Confirm Password'}}) }}
+                <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+                <span class="help-block text-red">{{ form_errors(form.plainPassword.confirmPassword) }}</span>
+            </div>
+            <div class="row">
+                <div class="col-xs-8"></div>
+                <!-- /.col -->
+                <div class="col-xs-4">
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
                 </div>
-                <div class="form-group has-feedback">
-                    {{ form_widget(form.fullname, {'attr': {'class': 'form-control', 'placeholder': 'Full Name'}}) }}
-                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                    <span class="help-block text-red">{{ form_errors(form.fullname) }}</span>
-                </div>
-                <div class="form-group has-feedback">
-                    {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Email'}}) }}
-                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                    <span class="help-block text-red">{{ form_errors(form.email) }}</span>
-                </div>
-                <div class="form-group has-feedback">
-                    {{ form_widget(form.plainPassword.password, {'attr': {'class': 'form-control', 'placeholder': 'Password'}}) }}
-                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                    <span class="help-block text-red">{{ form_errors(form.plainPassword.password) }}</span>
-                </div>
-                <div class="form-group has-feedback">
-                    {{ form_widget(form.plainPassword.confirmPassword, {'attr': {'class': 'form-control', 'placeholder': 'Confirm Password'}}) }}
-                    <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
-                    <span class="help-block text-red">{{ form_errors(form.plainPassword.confirmPassword) }}</span>
-                </div>
-                <div class="row">
-                    <div class="col-xs-8"></div>
-                    <!-- /.col -->
-                    <div class="col-xs-4">
-                        <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
-                    </div>
-                    <!-- /.col -->
-                </div>
+                <!-- /.col -->
+            </div>
             {{ form_end(form) }}
             <a href="{{ path('app_login') }}" class="text-center">I am already registered</a>
         </div>
-        <!-- /.form-box -->
     </div>
     <!-- /.register-box -->
 
@@ -114,10 +109,6 @@ Registration Page
         <!-- /.modal-dialog -->
     </div>
     <!-- /.modal -->
-{% endblock %}
-
-
-{% block js %}
     <!-- jQuery 3 -->
     <script src="{{ asset('static/js/jquery.min.js') }}"></script>
     <!-- Bootstrap 3.3.7 -->
@@ -134,7 +125,8 @@ Registration Page
         });
 
         {% if success %}
-            $('#modal-success').modal('show');
+        $('#modal-success').modal('show');
         {% endif %}
     </script>
-{% endblock %}
+</body>
+</html>
