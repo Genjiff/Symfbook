@@ -14,9 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class RegistrationController extends Controller
-{
-
+class RegistrationController extends Controller {
     public function userNew(Request $request, UserPasswordEncoderInterface $passwordEncoder) {
         $user = new User();
         $success = false;

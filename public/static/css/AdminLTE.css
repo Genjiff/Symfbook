@@ -279,6 +279,15 @@ a:focus {
   padding: 2px 3px;
   line-height: .9;
 }
+.friend-requests-label {
+  position: absolute;
+  right: 7px;
+  text-align: center;
+  font-size: 9px;
+  padding: 2px 3px;
+  line-height: .9;
+  background-color: #3C8DBC;
+}
 .main-header .logo {
   -webkit-transition: width 0.3s ease-in-out;
   -o-transition: width 0.3s ease-in-out;
