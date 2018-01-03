@@ -1,12 +1,9 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}
-    Login
-{% endblock %}
-
-{% block stylesheets %}
-    {{ parent() }}
-
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="{{ asset('static/img/favicon.ico') }}" type="image/x-icon">
+    <title>Symfbook | Login</title>
     <!-- Bootstrap 3.3.7 -->
     <link rel="stylesheet" href="{{ asset('static/css/bootstrap.css') }}">
     <!-- Font Awesome -->
@@ -17,9 +14,8 @@
     <link rel="stylesheet" href="{{ asset('static/css/AdminLTE.css') }}">
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-{% endblock %}
-
-{% block body %}
+</head>
+<body class="register-page">
     <div class="register-box">
         <div class="register-logo">
             <a href="/"><b>Symfbook</b></a>
@@ -75,10 +71,7 @@
         <!-- /.modal-dialog -->
     </div>
     <!-- /.modal -->
-{% endblock %}
 
-
-{% block js %}
     <!-- jQuery 3 -->
     <script src="{{ asset('static/js/jquery.min.js') }}"></script>
     <!-- Bootstrap 3.3.7 -->
@@ -87,7 +80,7 @@
     <script src="{{ asset('static/plugins/iCheck/icheck.min.js') }}"></script>
     <script>
         {% if error %}
-            $('#modal-error').modal('show');
+        $('#modal-error').modal('show');
         {% endif %}
     </script>
-{% endblock %}
+</body>
