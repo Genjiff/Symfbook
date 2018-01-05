@@ -21,3 +21,7 @@ app_profile:
 app_settings:
     path: /settings
     controller: App\Controller\SettingsController::settingsPage
+
+app_friends:
+    path: /friends
+    controller: App\Controller\FriendsController::viewFriends
