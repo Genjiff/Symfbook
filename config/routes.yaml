@@ -25,3 +25,7 @@ app_settings:
 app_friends:
     path: /friends
     controller: App\Controller\FriendsController::viewFriends
+
+app_explore:
+    path: /explore
+    controller: App\Controller\ExploreController::showExplore
