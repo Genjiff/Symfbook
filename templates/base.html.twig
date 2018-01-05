@@ -46,6 +46,16 @@
             <script src="{{ asset('static/js/bootstrap.min.js') }}"></script>
             <!-- AdminLTE js -->
             <script src="{{ asset('static/js/adminlte.js') }}"></script>
+
+            <script>
+                //Javascript for sidebar active element
+                var path = window.location.pathname;
+                $(".sidebar-menu li a").each(function () {
+                    if($(this).attr("href") === path) {
+                        $(this).parent().attr("class", "active");
+                    }
+                });
+            </script>
             {% block js %}{% endblock %}
             {% block modal %}{% endblock %}
         </div>
