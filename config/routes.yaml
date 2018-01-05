@@ -17,3 +17,7 @@ app_logout:
 app_profile:
     path: /profile
     controller: App\Controller\ProfileController::showProfile
+
+app_settings:
+    path: /settings
+    controller: App\Controller\SettingsController::settingsPage
