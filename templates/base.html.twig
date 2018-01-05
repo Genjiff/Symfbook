@@ -27,25 +27,27 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
-        {% include 'header.html.twig' %}
+        <div class="wrapper">
+            {% include 'header.html.twig' %}
 
-        {% include 'sidebar.html.twig' %}
-        <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
-            {% block content %}{% endblock %}
+            {% include 'sidebar.html.twig' %}
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                {% block content %}{% endblock %}
+            </div>
+            <footer class="main-footer">
+                <strong>Copyright &copy; 2016-2017 <a href="https://github.com/Genjiff">Lucas Borges</a>.</strong> All rights
+                reserved.
+            </footer>
+
+            <!-- jQuery 3 -->
+            <script src="{{ asset('static/js/jquery.min.js') }}"></script>
+            <!-- Bootstrap 3.3.7 -->
+            <script src="{{ asset('static/js/bootstrap.min.js') }}"></script>
+            <!-- AdminLTE js -->
+            <script src="{{ asset('static/js/adminlte.js') }}"></script>
+            {% block js %}{% endblock %}
+            {% block modal %}{% endblock %}
         </div>
-        <footer class="main-footer">
-            <strong>Copyright &copy; 2016-2017 <a href="https://github.com/Genjiff">Lucas Borges</a>.</strong> All rights
-            reserved.
-        </footer>
-
-        <!-- jQuery 3 -->
-        <script src="{{ asset('static/js/jquery.min.js') }}"></script>
-        <!-- Bootstrap 3.3.7 -->
-        <script src="{{ asset('static/js/bootstrap.min.js') }}"></script>
-        <!-- AdminLTE js -->
-        <script src="{{ asset('static/js/adminlte.js') }}"></script>
-        {% block js %}{% endblock %}
-        {% block modal %}{% endblock %}
     </body>
 </html>
