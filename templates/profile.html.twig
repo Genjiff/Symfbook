@@ -5,6 +5,13 @@ Alexander Pierce
 {% endblock %}
 
 {% block content %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            {{ app.user.fullname | capitalize }}'s Profile
+        </h1>
+    </section>
+
     <section class="content">
 
         <div class="row">
