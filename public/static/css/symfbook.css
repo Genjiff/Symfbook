@@ -18,6 +18,14 @@
     display: block;
 }
 
+.logo {
+    position:fixed
+}
+
+.main-sidebar {
+    position: fixed
+}
+
 .profile-picture-input {
     padding-top: 20px;
 }
