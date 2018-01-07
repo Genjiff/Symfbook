@@ -46,10 +46,37 @@ class User implements UserInterface, \Serializable
     private $password;
 
     /**
-     * @Assert\NotBlank()
      * @Assert\Length(max=4096)
      */
     private $plainPassword;
+
+    /**
+     * @ORM\Column(name="about_me", type="string", length=2000, nullable=true)
+     */
+    private $aboutMe = null;
+
+    /**
+     * @ORM\Column(type="string", length=200, nullable=true)
+     */
+    private $education = null;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $age = null;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $location = null;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     *
+     * @Assert\File(mimeTypes={"image/jpeg", "image/png"}, mimeTypesMessage="Only JPEG and PNG images are allowed.")
+     */
+    private $profilePicture = null;
+
     /**
      * @return mixed
      */
@@ -144,6 +171,86 @@ class User implements UserInterface, \Serializable
     public function setPlainPassword($plainPassword): void
     {
         $this->plainPassword = $plainPassword;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAboutMe()
+    {
+        return $this->aboutMe;
+    }
+
+    /**
+     * @param mixed $aboutMe
+     */
+    public function setAboutMe($aboutMe): void
+    {
+        $this->aboutMe = $aboutMe;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEducation()
+    {
+        return $this->education;
+    }
+
+    /**
+     * @param mixed $education
+     */
+    public function setEducation($education): void
+    {
+        $this->education = $education;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAge()
+    {
+        return $this->age;
+    }
+
+    /**
+     * @param mixed $age
+     */
+    public function setAge($age): void
+    {
+        $this->age = $age;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLocation()
+    {
+        return $this->location;
+    }
+
+    /**
+     * @param mixed $location
+     */
+    public function setLocation($location): void
+    {
+        $this->location = $location;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProfilePicture()
+    {
+        return $this->profilePicture;
+    }
+
+    /**
+     * @param mixed $profilePicture
+     */
+    public function setProfilePicture($profilePicture): void
+    {
+        $this->profilePicture = $profilePicture;
     }
 
     /**
