@@ -21,16 +21,23 @@
                 <!-- User Account: style can be found in dropdown.less -->
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="{{ asset('static/img/default-profile.jpg') }}" class="user-image" alt="User Image">
-                        <span class="hidden-xs">Alexander Pierce</span>
+                        {% if app.user.profilePicture != null %}
+                            <img src="{{ asset('upload/profile_pictures/' ~ app.user.profilePicture) }}" class="user-image" alt="User Image" />
+                        {% else %}
+                            <img src="{{ asset('static/img/default-profile.jpg') }}" class="user-image" alt="User Image" />
+                        {% endif %}
+                        <span class="hidden-xs">{{ app.user.fullname }}</span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-                            <img src="{{ asset('static/img/default-profile.jpg') }}" class="img-circle" alt="User Image">
-
+                            {% if app.user.profilePicture != null %}
+                                <img src="{{ asset('upload/profile_pictures/' ~ app.user.profilePicture) }}" class="img-circle" alt="User Image" />
+                            {% else %}
+                                <img src="{{ asset('static/img/default-profile.jpg') }}" class="img-circle" alt="User Image" />
+                            {% endif %}
                             <p>
-                                Alexander Pierce
+                                {{ app.user.fullname }}
                             </p>
                         </li>
                         <!-- Menu Body -->
