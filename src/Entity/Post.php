@@ -24,13 +24,13 @@ class Post
     private $message;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="sentPosts")
      * @ORM\JoinColumn(name="user_from", referencedColumnName="id", nullable=false)
      */
     private $userFrom;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="receivedPosts")
      * @ORM\JoinColumn(name="user_to", referencedColumnName="id", nullable=false)
      */
     private $userTo;
