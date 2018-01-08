@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -76,6 +77,16 @@ class User implements UserInterface, \Serializable
      * @Assert\File(mimeTypes={"image/jpeg", "image/png"}, mimeTypesMessage="Only JPEG and PNG images are allowed.")
      */
     private $profilePicture = null;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Post", mappedBy="userFrom", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $sentPosts;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Post", mappedBy="userTo", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $receivedPosts;
 
     /**
      * @return mixed
@@ -254,6 +265,22 @@ class User implements UserInterface, \Serializable
     }
 
     /**
+     * @return mixed
+     */
+    public function getSentPosts()
+    {
+        return $this->sentPosts->toArray();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getReceivedPosts()
+    {
+        return $this->receivedPosts->toArray();
+    }
+
+    /**
      * Returns the roles granted to the user.
      *
      * <code>
@@ -333,5 +360,10 @@ class User implements UserInterface, \Serializable
             $this->password,
             $this->plainPassword
             ) = unserialize($serialized);
+    }
+
+    public function __construct() {
+        $this->receivedPosts = new ArrayCollection();
+        $this->sentPosts = new ArrayCollection();
     }
 }
