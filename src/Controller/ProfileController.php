@@ -9,10 +9,21 @@
 namespace App\Controller;
 
 
+use App\Entity\Post;
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class ProfileController extends Controller {
     public function showProfile() {
-        return $this->render('profile.html.twig');
+        /** @var User $user */
+        $user = $this->getUser();
+
+        $postRepository = $this->getDoctrine()->getRepository(Post::class);
+
+        $posts = $postRepository->findBy(array('userTo' => $user->getId()));
+
+        return $this->render('profile.html.twig', array(
+            'posts' => $posts
+        ));
     }
 }
