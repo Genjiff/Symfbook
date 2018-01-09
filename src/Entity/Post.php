@@ -36,6 +36,12 @@ class Post
     private $userTo;
 
     /**
+     * @ORM\Column(type="datetime")
+     * @Assert\NotBlank()
+     */
+    private $timestamp;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -99,5 +105,19 @@ class Post
         $this->userTo = $userTo;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getTimestamp()
+    {
+        return $this->timestamp;
+    }
 
+    /**
+     * @param mixed $timestamp
+     */
+    public function setTimestamp($timestamp): void
+    {
+        $this->timestamp = $timestamp;
+    }
 }
