@@ -46,6 +46,8 @@
             <script src="{{ asset('static/js/bootstrap.min.js') }}"></script>
             <!-- AdminLTE js -->
             <script src="{{ asset('static/js/adminlte.js') }}"></script>
+            <!-- Timeago plugin -->
+            <script src="{{ asset('static/js/timeago.js') }}"></script>
 
             <script>
                 //Javascript for sidebar active element
@@ -55,6 +57,8 @@
                         $(this).parent().attr("class", "active");
                     }
                 });
+
+                $("time.timeago").timeago();
             </script>
             {% block js %}{% endblock %}
             {% block modal %}{% endblock %}
