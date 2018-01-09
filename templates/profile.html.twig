@@ -98,7 +98,7 @@
                                         <span class="username">
                                             <a href="#">{{ post.userFrom.fullname }}</a>
                                         </span>
-                                        <span class="description">7:30 PM today</span>
+                                        <span class="description"><time class="timeago" datetime="{{ post.timestamp.format('c') }}" title="{{ post.timestamp.format('d F Y \\a\\t H:i') }}"></time></span>
                                     </div>
                                     <!-- /.user-block -->
                                     <p>

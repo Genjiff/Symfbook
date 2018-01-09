@@ -22,8 +22,10 @@ class ProfileController extends Controller {
 
         $posts = $postRepository->findBy(array('userTo' => $user->getId()));
 
+        $time = date('Y-m-d\TH:i:s.Z\Z', time());
         return $this->render('profile.html.twig', array(
-            'posts' => $posts
+            'posts' => $posts,
+            'time' => $time
         ));
     }
 }
