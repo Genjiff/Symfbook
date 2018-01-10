@@ -25,9 +25,9 @@ class SettingsController extends Controller {
         /** @var string $lastProfilePicture */
         $lastProfilePicture = $user->getProfilePicture();
 
+        // Set full path of the profile picture because of form validator
         $lastProfilePicturePath = $this->getParameter('profile_pictures_directory').'/'.$user->getProfilePicture();
 
-        // Set full path of the profile picture because of form validator
         if ($lastProfilePicture !== null) {
             $user->setProfilePicture(
                 new File($lastProfilePicturePath)

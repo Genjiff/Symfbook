@@ -37,7 +37,6 @@ class Post
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\NotBlank()
      */
     private $timestamp;
 

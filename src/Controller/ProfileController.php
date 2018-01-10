@@ -11,21 +11,43 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\Entity\User;
+use App\Form\PostType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class ProfileController extends Controller {
-    public function showProfile() {
+    public function showProfile(Request $request) {
         /** @var User $user */
         $user = $this->getUser();
+        $post = new Post();
+
+        $form = $this->createForm(PostType::class, $post);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            //TODO: validate if the sender is friend with the receiver
+            $post->setTimestamp(new \DateTime());
+            $post->setUserFrom($user);
+            $post->setUserTo($user);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($post);
+            $em->flush();
+
+            //Empty the form and the object and create new ones
+            unset($post);
+            unset($form);
+            $post = new Post();
+            $form = $this->createForm(PostType::class, $post);
+        }
 
         $postRepository = $this->getDoctrine()->getRepository(Post::class);
-
         $posts = $postRepository->findBy(array('userTo' => $user->getId()));
 
-        $time = date('Y-m-d\TH:i:s.Z\Z', time());
         return $this->render('profile.html.twig', array(
-            'posts' => $posts,
-            'time' => $time
+            'form' => $form->createView(),
+            'posts' => $posts
         ));
     }
 }
