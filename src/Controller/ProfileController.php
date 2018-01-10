@@ -50,4 +50,23 @@ class ProfileController extends Controller {
             'posts' => $posts
         ));
     }
+
+    public function deletePost($post_id) {
+        $postRepository = $this->getDoctrine()->getRepository(Post::class);
+        $post = $postRepository->find($post_id);
+
+        /** @var User $user */
+        $user = $this->getUser();
+
+        /** @var User $postOwner */
+        $postOwner = $post->getUserTo();
+
+        if ($user->getId() === $postOwner->getId()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($post);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('app_profile');
+    }
 }

@@ -18,6 +18,14 @@ app_profile:
     path: /profile
     controller: App\Controller\ProfileController::showProfile
 
+app_delete_post:
+    path: /delete_post/{post_id}
+    controller: App\Controller\ProfileController::deletePost
+    requirements:
+        page: '\d+'
+    defaults:
+        post_id: null
+
 app_settings:
     path: /settings
     controller: App\Controller\SettingsController::settingsPage

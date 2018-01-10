@@ -176,7 +176,7 @@
     </div>
     <!-- /.modal -->
 
-    <!-- Delete Modal -->
+    <!-- Delete Post Modal -->
     <div class="modal modal-danger fade" id="modal-delete-post">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -190,7 +190,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-outline" data-dismiss="modal">Delete</button>
+                    <a id="delete-post-button" href="#"><button type="button" class="btn btn-outline">Delete</button></a>
                 </div>
             </div>
             <!-- /.modal-content -->
@@ -211,6 +211,8 @@
         });
 
         $(".delete-post").on("click", function () {
+            var postId = $(this).attr('id').substr(12);
+            $("#delete-post-button").attr('href', '{{ path('app_delete_post') | escape('js') }}/' + postId);
             $("#modal-delete-post").modal("show");
         });
     </script>
