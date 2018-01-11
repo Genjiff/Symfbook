@@ -55,7 +55,10 @@ class SettingsController extends Controller {
                     $fileName
                 );
 
-                unlink($lastProfilePicturePath);
+                if ($lastProfilePicture !== null) {
+                    // Delete old profile picture
+                    unlink($lastProfilePicturePath);
+                }
 
                 $user->setProfilePicture($fileName);
             } else {
