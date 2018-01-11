@@ -15,16 +15,24 @@ app_logout:
     controller: App\Controller\SecurityController::logout
 
 app_profile:
-    path: /profile
+    path: /profile/{userId}
     controller: App\Controller\ProfileController::showProfile
+    requirements:
+        userId: '\d+'
+    defaults:
+        userId: null
+
+app_write_post:
+    path: write_post
+    controller: App\Controller\ProfileController::writePost
 
 app_delete_post:
-    path: /delete_post/{post_id}
+    path: /delete_post/{postId}
     controller: App\Controller\ProfileController::deletePost
     requirements:
-        page: '\d+'
+        postId: '\d+'
     defaults:
-        post_id: null
+        postId: null
 
 app_settings:
     path: /settings

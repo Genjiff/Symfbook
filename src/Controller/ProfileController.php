@@ -16,44 +16,68 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 class ProfileController extends Controller {
-    public function showProfile(Request $request) {
-        /** @var User $user */
-        $user = $this->getUser();
-        $post = new Post();
-
-        $form = $this->createForm(PostType::class, $post);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            //TODO: validate if the sender is friend with the receiver
-            $post->setTimestamp(new \DateTime());
-            $post->setUserFrom($user);
-            $post->setUserTo($user);
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($post);
-            $em->flush();
-
-            //Empty the form and the object and create new ones
-            unset($post);
-            unset($form);
-            $post = new Post();
-            $form = $this->createForm(PostType::class, $post);
+    public function showProfile(Request $request, $userId) {
+        if ($userId == null) {
+            /** @var User $user */
+            $user = $this->getUser();
+        } else {
+            $userRepository = $this->getDoctrine()->getRepository(User::class);
+            $user = $userRepository->find($userId);
         }
 
+        $post = new Post();
+
+        $form = $this->createForm(PostType::class, $post, array(
+            'action' => $this->generateUrl('app_write_post')
+        ));
+        $form->handleRequest($request);
+
         $postRepository = $this->getDoctrine()->getRepository(Post::class);
-        $posts = $postRepository->findBy(array('userTo' => $user->getId()));
+        $posts = $postRepository->findBy(
+            array('userTo' => $user->getId()),
+            array('timestamp' => 'DESC')
+        );
 
         return $this->render('profile.html.twig', array(
+            'user' => $user,
             'form' => $form->createView(),
             'posts' => $posts
         ));
     }
 
-    public function deletePost($post_id) {
+    public function writePost(Request $request) {
+
+        $post = new Post();
+
+        $form = $this->createForm(PostType::class, $post);
+        $form->handleRequest($request);
+
+        if ($post->getUserTo() == null) {
+            return $this->redirectToRoute('app_profile');
+        } else {
+            $userRepository = $this->getDoctrine()->getRepository(User::class);
+            $userTo = $userRepository->find($post->getUserTo());
+        }
+
+        $userFrom = $this->getUser();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            //TODO: validate if the sender is friend with the receiver
+            $post->setTimestamp(new \DateTime());
+            $post->setUserFrom($userFrom);
+            $post->setUserTo($userTo);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($post);
+            $em->flush();
+        }
+
+        return $this->redirect($this->generateUrl('app_profile', array('userId' => $post->getUserTo()->getId())));
+    }
+
+    public function deletePost($postId) {
         $postRepository = $this->getDoctrine()->getRepository(Post::class);
-        $post = $postRepository->find($post_id);
+        $post = $postRepository->find($postId);
 
         /** @var User $user */
         $user = $this->getUser();

@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-{{ app.user.fullname }}
+{{ user.fullname }}
 {% endblock %}
 
 {% block content %}
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            {{ app.user.fullname }}'s Profile
+            {{ user.fullname }}'s Profile
         </h1>
     </section>
 
@@ -20,16 +20,16 @@
                 <!-- Profile Image -->
                 <div class="box box-primary">
                     <div class="box-body box-profile">
-                        {% if app.user.profilePicture != null %}
-                            <img src="{{ asset('upload/profile_pictures/' ~ app.user.profilePicture) }}" class="profile-user-img img-responsive img-circle" alt="User profile picture" />
+                        {% if user.profilePicture != null %}
+                            <img src="{{ asset('upload/profile_pictures/' ~ user.profilePicture) }}" class="profile-user-img img-responsive img-circle" alt="User profile picture" />
                         {% else %}
                             <img src="{{ asset('static/img/default-profile.jpg') }}" class="profile-user-img img-responsive img-circle" alt="User profile picture" />
                         {% endif %}
 
-                        <h3 class="profile-username text-center">{{ app.user.fullname }}</h3>
+                        <h3 class="profile-username text-center">{{ user.fullname }}</h3>
 
                         <p class="text-muted text-center">
-                            {{ app.user.aboutMe }}
+                            {{ user.aboutMe }}
                         </p>
 
                         <ul class="list-group list-group-unbordered">
@@ -39,8 +39,15 @@
                         </ul>
 
                         {#<a href="#" id="add-friend-button" class="btn btn-primary btn-block"><i class="fa fa-user-plus" aria-hidden="true"></i> <b>Add friend</b></a>#}
-                        {#<a href="#" id="send-message-button" class="btn btn-primary btn-block"><i class="fa fa-envelope" aria-hidden="true"></i> <b>Send Message</b></a>#}
-                        <button id="post-timeline-button" class="btn btn-primary btn-block"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> <b>Post in my timeline</b></button>
+                        <button id="post-timeline-button" class="btn btn-primary btn-block"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            <b>
+                                {% if app.user.id == user.id %}
+                                    Post in my timeline
+                                {% else %}
+                                    Write something for {{ user.fullname }}
+                                {% endif %}
+                            </b>
+                        </button>
                     </div>
                     <!-- /.box-body -->
                 </div>
@@ -53,25 +60,25 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                        {% if app.user.education != null %}
+                        {% if user.education != null %}
                             <strong><i class="fa fa-book margin-r-5"></i> Education</strong>
 
                             <p class="text-muted">
-                                {{ app.user.education }}
+                                {{ user.education }}
                             </p>
                         {% endif %}
-                        {% if app.user.location != null %}
+                        {% if user.location != null %}
                             <hr>
                             <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
 
-                            <p class="text-muted">{{ app.user.location }}</p>
+                            <p class="text-muted">{{ user.location }}</p>
                         {% endif %}
-                        {% if app.user.age != null %}
+                        {% if user.age != null %}
                             <hr>
 
                             <strong><i class="fa fa-vcard-o margin-r-5"></i> Age</strong>
 
-                            <p class="text-muted">{{ app.user.age }}</p>
+                            <p class="text-muted">{{ user.age }}</p>
                         {% endif %}
                     </div>
                     <!-- /.box-body -->
@@ -97,7 +104,9 @@
                                         {% endif %}
                                         <span class="username">
                                             <a href="#">{{ post.userFrom.fullname }}</a>
-                                            <a id="delete-post-{{ post.id }}" class="pull-right btn-box-tool delete-post" title="Delete post"><i class="fa fa-trash"></i></a>
+                                            {% if user.id == app.user.id %}
+                                                <a id="delete-post-{{ post.id }}" class="pull-right btn-box-tool delete-post" title="Delete post"><i class="fa fa-trash"></i></a>
+                                            {% endif %}
                                         </span>
                                         <span class="description"><time class="timeago" datetime="{{ post.timestamp.format('c') }}" title="{{ post.timestamp.format('d F Y \\a\\t H:i') }}"></time></span>
                                     </div>
@@ -123,32 +132,6 @@
 {% endblock %}
 
 {% block modal %}
-    <div class="modal fade" id="modal-send-message">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form action="#" method="post">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Send your message:</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group has-feedback">
-                            <textarea rows="8" class="form-control" placeholder="Write your message:" name="_message" id="_message"></textarea>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Send Message</button>
-                    </div>
-                </form>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-    <!-- /.modal -->
-
     <div class="modal fade" id="modal-post-timeline">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -160,9 +143,9 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group has-feedback">
-                            {{ form_widget(form.message, {'attr': {'class': 'form-control', 'placeholder': 'How are you feeling today?', 'rows': '8'}}) }}
+                            {{ form_widget(form.message, {'attr': {'class': 'form-control', 'placeholder': 'Write your message:', 'rows': '8'}}) }}
                         </div>
-                        {{ form_widget(form.userTo, {'attr': {'value': app.user.id}}) }}
+                        {{ form_widget(form.userTo, {'attr': {'value': user.id}}) }}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
@@ -202,10 +185,6 @@
 
 {% block js %}
     <script>
-        $("#send-message-button").on("click", function () {
-            $("#modal-send-message").modal("show");
-        });
-
         $("#post-timeline-button").on("click", function () {
             $("#modal-post-timeline").modal("show");
         });
