@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    My Friends
+    Pending Requests
 {% endblock %}
 
 {% block content %}
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            My Friends
+            Pending Friend Requests
         </h1>
     </section>
 
@@ -33,8 +33,8 @@
                                 </li>
                             </ul>
 
-                            <a href="#" class="btn btn-success btn-block send-message-button"><i class="fa fa-check" aria-hidden="true"></i> <b>Confirm</b></a>
-                            <a href="#" class="btn btn-danger btn-block send-message-button"><i class="fa fa-close" aria-hidden="true"></i> <b>Cancel</b></a>
+                            <a href="{{ path('app_confirm_request', {'userId' : request.user1.id}) }}" class="btn btn-success btn-block send-message-button"><i class="fa fa-check" aria-hidden="true"></i> <b>Confirm</b></a>
+                            <a href="{{ path('app_cancel_request', {'userId' : request.user1.id}) }}" class="btn btn-danger btn-block send-message-button"><i class="fa fa-close" aria-hidden="true"></i> <b>Cancel</b></a>
                         </div>
                         <!-- /.box-body -->
                     </div>

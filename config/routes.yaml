@@ -40,7 +40,7 @@ app_settings:
 
 app_friends:
     path: /friends
-    controller: App\Controller\FriendsController::viewFriends
+    controller: App\Controller\FriendshipController::viewFriends
 
 app_explore:
     path: /explore
@@ -57,3 +57,19 @@ app_add_friend:
 app_friend_requests:
     path: /friend_requests
     controller: App\Controller\FriendshipController::friendRequests
+
+app_cancel_request:
+    path: /cancel_request/{userId}
+    controller: App\Controller\FriendshipController::cancelFriendRequest
+    requirements:
+            userId: '\d+'
+    defaults:
+        userId: null
+
+app_confirm_request:
+    path: /confirm_request/{userId}
+    controller: App\Controller\FriendshipController::confirmFriendRequest
+    requirements:
+            userId: '\d+'
+    defaults:
+        userId: null

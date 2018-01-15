@@ -53,4 +53,50 @@ class FriendshipController extends Controller {
             'requests' => $pendingRequests
         ));
     }
+
+    public function cancelFriendRequest($userId) {
+        $userRepository = $this->getDoctrine()->getRepository(User::class);
+        $user1 = $userRepository->find($userId);
+
+        $user2 = $this->getUser();
+
+        $friendshipRepository = $this->getDoctrine()->getRepository(Friendship::class);
+        $fr = $friendshipRepository->findOneBy(array(
+            'user1' => $user1,
+            'user2' => $user2,
+            'status' => 'pending'
+        ));
+
+        if ($fr != null) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($fr);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('app_friend_requests');
+    }
+
+    public function confirmFriendRequest($userId) {
+        $userRepository = $this->getDoctrine()->getRepository(User::class);
+        $user1 = $userRepository->find($userId);
+
+        $user2 = $this->getUser();
+
+        $friendshipRepository = $this->getDoctrine()->getRepository(Friendship::class);
+        $fr = $friendshipRepository->findOneBy(array(
+            'user1' => $user1,
+            'user2' => $user2,
+            'status' => 'pending'
+        ));
+
+        if ($fr != null) {
+            $fr->setStatus('confirmed');
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($fr);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('app_friend_requests');
+    }
 }
