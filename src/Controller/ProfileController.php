@@ -9,6 +9,7 @@
 namespace App\Controller;
 
 
+use App\Entity\Friendship;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Form\PostType;
@@ -17,12 +18,19 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ProfileController extends Controller {
     public function showProfile(Request $request, $userId) {
-        if ($userId == null) {
+        $status = 'own user';
+        /** @var User $loggedUser */
+        $loggedUser = $this->getUser();
+
+        if ($userId == null || $loggedUser->getId() == $userId) {
             /** @var User $user */
-            $user = $this->getUser();
+            $user = $loggedUser;
         } else {
             $userRepository = $this->getDoctrine()->getRepository(User::class);
             $user = $userRepository->find($userId);
+
+            $friendshipRepository = $this->getDoctrine()->getRepository(Friendship::class);
+            $status = $friendshipRepository->checkFriendship($loggedUser, $user);
         }
 
         $post = new Post();
@@ -41,7 +49,8 @@ class ProfileController extends Controller {
         return $this->render('profile.html.twig', array(
             'user' => $user,
             'form' => $form->createView(),
-            'posts' => $posts
+            'posts' => $posts,
+            'status' => $status
         ));
     }
 

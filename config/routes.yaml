@@ -45,3 +45,11 @@ app_friends:
 app_explore:
     path: /explore
     controller: App\Controller\ExploreController::showExplore
+
+app_add_friend:
+    path: /add_friend/{userId}
+    controller: App\Controller\FriendshipController::AddFriend
+    requirements:
+        userId: '\d+'
+    defaults:
+        userId: null

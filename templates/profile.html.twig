@@ -38,10 +38,12 @@
                             </li>
                         </ul>
 
-                        {#<a href="#" id="add-friend-button" class="btn btn-primary btn-block"><i class="fa fa-user-plus" aria-hidden="true"></i> <b>Add friend</b></a>#}
+                        {% if status == false %}
+                            <a href="{{ path('app_add_friend', {'userId' : user.id}) }}" id="add-friend-button" class="btn btn-primary btn-block"><i class="fa fa-user-plus" aria-hidden="true"></i> <b>Add friend</b></a>
+                        {% endif %}
                         <button id="post-timeline-button" class="btn btn-primary btn-block"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                             <b>
-                                {% if app.user.id == user.id %}
+                                {% if status == 'own user' %}
                                     Post in my timeline
                                 {% else %}
                                     Write something for {{ user.fullname }}
@@ -103,7 +105,7 @@
                                             <img class="img-circle img-bordered-sm" src="{{ asset('static/img/default-profile.jpg') }}" alt="user image">
                                         {% endif %}
                                         <span class="username">
-                                            <a href="#">{{ post.userFrom.fullname }}</a>
+                                            <a href="{{ path('app_profile', {'userId': post.userFrom.id}) }}">{{ post.userFrom.fullname }}</a>
                                             {% if user.id == app.user.id %}
                                                 <a id="delete-post-{{ post.id }}" class="pull-right btn-box-tool delete-post" title="Delete post"><i class="fa fa-trash"></i></a>
                                             {% endif %}

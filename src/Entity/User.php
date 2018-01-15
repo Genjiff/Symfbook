@@ -89,7 +89,17 @@ class User implements UserInterface, \Serializable
     private $receivedPosts;
 
     /**
-     * @return mixed
+     * @ORM\OneToMany(targetEntity="Friendship", mappedBy="user1")
+     */
+    private $myFriends;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Friendship", mappedBy="user2")
+     */
+    private $friendsWithMe;
+
+    /**
+     * @return integer
      */
     public function getId()
     {
@@ -97,7 +107,7 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @param mixed $id
+     * @param integer $id
      */
     public function setId($id): void
     {
@@ -105,7 +115,7 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getUsername()
     {
@@ -113,7 +123,7 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @param mixed $username
+     * @param string $username
      */
     public function setUsername($username): void
     {
@@ -121,7 +131,7 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getFullname()
     {
@@ -129,7 +139,7 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @param mixed $fullname
+     * @param string $fullname
      */
     public function setFullname($fullname): void
     {
@@ -137,7 +147,7 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getEmail()
     {
@@ -145,7 +155,7 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @param mixed $email
+     * @param string $email
      */
     public function setEmail($email): void
     {
@@ -153,7 +163,7 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getPassword()
     {
@@ -161,7 +171,7 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @param mixed $password
+     * @param string $password
      */
     public function setPassword($password): void
     {
@@ -169,7 +179,7 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getPlainPassword()
     {
@@ -177,7 +187,7 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @param mixed $plainPassword
+     * @param string $plainPassword
      */
     public function setPlainPassword($plainPassword): void
     {
@@ -185,7 +195,7 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getAboutMe()
     {
@@ -193,7 +203,7 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @param mixed $aboutMe
+     * @param string $aboutMe
      */
     public function setAboutMe($aboutMe): void
     {
@@ -201,7 +211,7 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getEducation()
     {
@@ -209,7 +219,7 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @param mixed $education
+     * @param string $education
      */
     public function setEducation($education): void
     {
@@ -217,7 +227,7 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @return mixed
+     * @return integer
      */
     public function getAge()
     {
@@ -225,7 +235,7 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @param mixed $age
+     * @param integer $age
      */
     public function setAge($age): void
     {
@@ -233,7 +243,7 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getLocation()
     {
@@ -241,7 +251,7 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @param mixed $location
+     * @param string $location
      */
     public function setLocation($location): void
     {
@@ -249,7 +259,7 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getProfilePicture()
     {
@@ -257,7 +267,7 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @param mixed $profilePicture
+     * @param string $profilePicture
      */
     public function setProfilePicture($profilePicture): void
     {
@@ -265,7 +275,7 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @return mixed
+     * @return array
      */
     public function getSentPosts()
     {
@@ -273,11 +283,37 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @return mixed
+     * @return array
      */
     public function getReceivedPosts()
     {
         return $this->receivedPosts->toArray();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMyFriends()
+    {
+        return $this->myFriends->toArray();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFriendsWithMe()
+    {
+        return $this->friendsWithMe->toArray();
+    }
+
+    /**
+     * @return array
+     */
+    public function getAllFriends() {
+        $myFriends = $this->myFriends->toArray();
+        $friendsWithMe = $this->friendsWithMe->toArray();
+
+        return array_merge($myFriends, $friendsWithMe);
     }
 
     /**
@@ -365,5 +401,7 @@ class User implements UserInterface, \Serializable
     public function __construct() {
         $this->receivedPosts = new ArrayCollection();
         $this->sentPosts = new ArrayCollection();
+        $this->myFriends = new ArrayCollection();
+        $this->friendsWithMe = new ArrayCollection();
     }
 }
