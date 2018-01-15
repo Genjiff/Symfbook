@@ -52,6 +52,20 @@ class FriendshipRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @param User $user
+     * @return Friendship
+     */
+    public function findPendingRequestsByUser(User $user) {
+        return $this->createQueryBuilder('f')
+            ->where('f.user2 = :user')
+            ->andWhere('f.status = :pending')
+            ->setParameter('user', $user)
+            ->setParameter('pending', 'pending')
+            ->getQuery()
+            ->getResult();
+    }
+
     /*
     public function findBySomething($value)
     {

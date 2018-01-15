@@ -48,8 +48,12 @@ app_explore:
 
 app_add_friend:
     path: /add_friend/{userId}
-    controller: App\Controller\FriendshipController::AddFriend
+    controller: App\Controller\FriendshipController::addFriend
     requirements:
         userId: '\d+'
     defaults:
         userId: null
+
+app_friend_requests:
+    path: /friend_requests
+    controller: App\Controller\FriendshipController::friendRequests

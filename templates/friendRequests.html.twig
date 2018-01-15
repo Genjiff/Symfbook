@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    My Friends
+{% endblock %}
+
+{% block content %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            My Friends
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            {% for request in requests %}
+                <div class="col-md-3">
+                    <!-- Profile Image -->
+                    <div class="box box-primary">
+                        <div class="box-body box-profile">
+                            {% if request.user1.profilePicture == null %}
+                                <img class="profile-user-img img-responsive img-circle" src="{{ asset('static/img/default-profile.jpg') }}" alt="User profile picture" />
+                            {% else %}
+                                <img src="{{ asset('upload/profile_pictures/' ~ request.user1.profilePicture) }}" class="profile-user-img img-responsive img-circle" alt="User profile picture" />
+                            {% endif %}
+                            <a href="{{ path('app_profile', {'userId' : request.user1.id}) }}"><h3 class="profile-username text-center">{{ request.user1.fullname }}</h3></a>
+
+                            <ul class="list-group list-group-unbordered">
+                                <li class="list-group-item">
+                                    <b>Friends</b> <a class="pull-right">13,287</a>
+                                </li>
+                            </ul>
+
+                            <a href="#" class="btn btn-success btn-block send-message-button"><i class="fa fa-check" aria-hidden="true"></i> <b>Confirm</b></a>
+                            <a href="#" class="btn btn-danger btn-block send-message-button"><i class="fa fa-close" aria-hidden="true"></i> <b>Cancel</b></a>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+                </div>
+                <!-- /.col -->
+            {% endfor %}
+        </div>
+        <!-- /.row -->
+    </section>
+{% endblock %}

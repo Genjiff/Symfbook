@@ -42,4 +42,15 @@ class FriendshipController extends Controller {
 
         return $this->redirect($this->generateUrl('app_profile', array('userId' => $userId)));
     }
+
+    public function friendRequests() {
+        $user = $this->getUser();
+
+        $friendshipRepository = $this->getDoctrine()->getRepository(Friendship::class);
+        $pendingRequests = $friendshipRepository->findPendingRequestsByUser($user);
+
+        return $this->render('friendRequests.html.twig', array(
+            'requests' => $pendingRequests
+        ));
+    }
 }
