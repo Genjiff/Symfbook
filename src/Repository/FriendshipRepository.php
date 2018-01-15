@@ -15,6 +15,10 @@ class FriendshipRepository extends ServiceEntityRepository
         parent::__construct($registry, Friendship::class);
     }
 
+    /**
+     * @param User $user
+     * @return Friendship
+     */
     public function findConfirmedFriendsByUser(User $user) {
         return $this->createQueryBuilder('f')
             ->where('f.user1 = :user OR f.user2 = :user')
@@ -29,7 +33,7 @@ class FriendshipRepository extends ServiceEntityRepository
     /**
      * @param User $user1
      * @param User $user2
-     * @return mixed
+     * @return NonUniqueResultException|false|string
      */
     public function checkFriendship(User $user1, User $user2) {
         try {
@@ -64,6 +68,22 @@ class FriendshipRepository extends ServiceEntityRepository
             ->setParameter('pending', 'pending')
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * @param $user
+     * @return integer
+     * @throws NonUniqueResultException
+     */
+    public function countPendingRequestsByUser($user) {
+        return $this->createQueryBuilder('f')
+            ->select('count(f.user2)')
+            ->where('f.user2 = :user')
+            ->andWhere('f.status = :pending')
+            ->setParameter('user', $user)
+            ->setParameter('pending', 'pending')
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
     /*

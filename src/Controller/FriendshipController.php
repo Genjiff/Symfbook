@@ -11,7 +11,6 @@ namespace App\Controller;
 
 use App\Entity\Friendship;
 use App\Entity\User;
-use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class FriendshipController extends Controller {
@@ -20,6 +19,7 @@ class FriendshipController extends Controller {
     }
 
     public function addFriend($userId) {
+        /** @var User $user1 */
         $user1 = $this->getUser();
 
         $userRepository = $this->getDoctrine()->getRepository(User::class);
@@ -44,6 +44,7 @@ class FriendshipController extends Controller {
     }
 
     public function friendRequests() {
+        /** @var User $user */
         $user = $this->getUser();
 
         $friendshipRepository = $this->getDoctrine()->getRepository(Friendship::class);

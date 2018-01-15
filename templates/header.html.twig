@@ -45,7 +45,9 @@
                             <div class="row">
                                 <div class="col-xs-6 text-center">
                                     <a href="{{ path('app_friend_requests') }}">Friend requests</a>
-                                    <span class="friend-requests-label label">4</span>
+                                    {% if friendService.friendRequestsCount > 0 %}
+                                        <span class="friend-requests-label label">{{ friendService.friendRequestsCount }}</span>
+                                    {% endif %}
                                 </div>
                                 <div class="col-xs-6 text-center">
                                     <a href="{{ path('app_friends') }}">My friends</a>
