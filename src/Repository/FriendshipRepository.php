@@ -85,7 +85,7 @@ class FriendshipRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param $user
+     * @param User $user
      * @return integer
      * @throws NonUniqueResultException
      */
@@ -96,6 +96,22 @@ class FriendshipRepository extends ServiceEntityRepository
             ->andWhere('f.status = :pending')
             ->setParameter('user', $user)
             ->setParameter('pending', 'pending')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * @param User $user
+     * @return integer
+     * @throws NonUniqueResultException
+     */
+    public function countFriendsByUser(User $user) {
+        return $this->createQueryBuilder('f')
+            ->select('count(f.user1)')
+            ->where('f.user1 = :user OR f.user2 = :user')
+            ->andWhere('f.status = :confirmed')
+            ->setParameter('user', $user)
+            ->setParameter('confirmed', 'confirmed')
             ->getQuery()
             ->getSingleScalarResult();
     }

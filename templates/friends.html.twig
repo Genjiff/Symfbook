@@ -29,7 +29,7 @@
 
                             <ul class="list-group list-group-unbordered">
                                 <li class="list-group-item">
-                                    <b>Friends</b> <a class="pull-right">13,287</a>
+                                    <b>Friends</b> <a class="pull-right">{{ friendService.friendsCount(friend) }}</a>
                                 </li>
                             </ul>
                             <a href="{{ path('app_unfriend', {'userId' : friend.id}) }}" class="btn btn-danger btn-block"><i class="fa fa-user-times" aria-hidden="true"></i> <b>Unfriend</b></a>

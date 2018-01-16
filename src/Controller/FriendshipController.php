@@ -25,6 +25,7 @@ class FriendshipController extends Controller {
     }
 
     public function viewFriends() {
+        /** @var User[] $friends */
         $friends = array();
 
         /** @var User $user */

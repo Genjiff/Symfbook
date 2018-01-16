@@ -13,6 +13,7 @@ use App\Entity\Friendship;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Form\PostType;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -22,6 +23,8 @@ class ProfileController extends Controller {
         /** @var User $loggedUser */
         $loggedUser = $this->getUser();
 
+        $friendshipRepository = $this->getDoctrine()->getRepository(Friendship::class);
+
         if ($userId == null || $loggedUser->getId() == $userId) {
             /** @var User $user */
             $user = $loggedUser;
@@ -29,8 +32,13 @@ class ProfileController extends Controller {
             $userRepository = $this->getDoctrine()->getRepository(User::class);
             $user = $userRepository->find($userId);
 
-            $friendshipRepository = $this->getDoctrine()->getRepository(Friendship::class);
             $status = $friendshipRepository->checkFriendship($loggedUser, $user);
+        }
+
+        try {
+            $friendCount = $friendshipRepository->countFriendsByUser($user);
+        } catch (NonUniqueResultException $e) {
+            $friendCount = 0;
         }
 
         $post = new Post();
@@ -47,10 +55,11 @@ class ProfileController extends Controller {
         );
 
         return $this->render('profile.html.twig', array(
-            'user' => $user,
             'form' => $form->createView(),
+            'friendCount' => $friendCount,
             'posts' => $posts,
-            'status' => $status
+            'status' => $status,
+            'user' => $user,
         ));
     }
 
