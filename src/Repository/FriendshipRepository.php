@@ -25,7 +25,6 @@ class FriendshipRepository extends ServiceEntityRepository
             ->andWhere('f.status = :confirmed')
             ->setParameter('user', $user)
             ->setParameter('confirmed', 'confirmed')
-            ->orderBy('f.id', 'Asc')
             ->getQuery()
             ->getResult();
     }

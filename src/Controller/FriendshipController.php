@@ -14,8 +14,38 @@ use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class FriendshipController extends Controller {
+    /**
+     * @param User $a
+     * @param User $b
+     * @return int
+     */
+    public function cmp(User $a, User $b) {
+        return strcasecmp($a->getFullname(), $b->getFullname());
+    }
+
     public function viewFriends() {
-        return $this->render('friends.html.twig');
+        $friends = array();
+
+        /** @var User $user */
+        $user = $this->getUser();
+
+        $friendshipRepository = $this->getDoctrine()->getRepository(Friendship::class);
+        $mixedFriends = $friendshipRepository->findConfirmedFriendsByUser($user);
+
+        /** @var Friendship $friend */
+        foreach ($mixedFriends as $friend) {
+            if ($friend->getUser1()->getId() == $user->getId()) {
+                array_push($friends, $friend->getUser2());
+            } else {
+                array_push($friends, $friend->getUser1());
+            }
+        }
+
+        usort($friends, array($this, "cmp"));
+
+        return $this->render('friends.html.twig', array(
+            'friends' => $friends
+        ));
     }
 
     public function addFriend($userId) {
