@@ -54,6 +54,14 @@ app_add_friend:
     defaults:
         userId: null
 
+app_unfriend:
+    path: /unfriend/{userId}
+    controller: App\Controller\FriendshipController::unfriend
+    requirements:
+        userId: '\d+'
+    defaults:
+        userId: null
+
 app_friend_requests:
     path: /friend_requests
     controller: App\Controller\FriendshipController::friendRequests
@@ -62,7 +70,7 @@ app_cancel_request:
     path: /cancel_request/{userId}
     controller: App\Controller\FriendshipController::cancelFriendRequest
     requirements:
-            userId: '\d+'
+        userId: '\d+'
     defaults:
         userId: null
 
@@ -70,6 +78,6 @@ app_confirm_request:
     path: /confirm_request/{userId}
     controller: App\Controller\FriendshipController::confirmFriendRequest
     requirements:
-            userId: '\d+'
+        userId: '\d+'
     defaults:
         userId: null

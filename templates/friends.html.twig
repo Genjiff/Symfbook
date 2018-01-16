@@ -32,7 +32,7 @@
                                     <b>Friends</b> <a class="pull-right">13,287</a>
                                 </li>
                             </ul>
-                            <a href="#" class="btn btn-danger btn-block"><i class="fa fa-user-times" aria-hidden="true"></i> <b>Unfriend</b></a>
+                            <a href="{{ path('app_unfriend', {'userId' : friend.id}) }}" class="btn btn-danger btn-block"><i class="fa fa-user-times" aria-hidden="true"></i> <b>Unfriend</b></a>
                         </div>
                         <!-- /.box-body -->
                     </div>

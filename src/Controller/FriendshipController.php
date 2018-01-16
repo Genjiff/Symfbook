@@ -11,6 +11,7 @@ namespace App\Controller;
 
 use App\Entity\Friendship;
 use App\Entity\User;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class FriendshipController extends Controller {
@@ -68,6 +69,25 @@ class FriendshipController extends Controller {
             $em = $this->getDoctrine()->getManager();
             $em->persist($friendshipRequest);
             $em->flush();
+        }
+
+        return $this->redirect($this->generateUrl('app_profile', array('userId' => $userId)));
+    }
+
+    public function unfriend($userId) {
+        /** @var User $user */
+        $user1 = $this->getUser();
+
+        $userRepository = $this->getDoctrine()->getRepository(User::class);
+        $user2 = $userRepository->find($userId);
+
+        $friendshipRepository = $this->getDoctrine()->getRepository(Friendship::class);
+        try {
+            $friendship = $friendshipRepository->findFriendship($user1, $user2);
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($friendship);
+            $em->flush();
+        } catch (NonUniqueResultException $e) {
         }
 
         return $this->redirect($this->generateUrl('app_profile', array('userId' => $userId)));

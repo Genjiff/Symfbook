@@ -32,6 +32,21 @@ class FriendshipRepository extends ServiceEntityRepository
     /**
      * @param User $user1
      * @param User $user2
+     * @return null|User
+     * @throws NonUniqueResultException
+     */
+    public function findFriendship(User $user1, User $user2) {
+        return $this->createQueryBuilder('f')
+            ->where('f.user1 = :user1 OR f.user1 = :user2')
+            ->andWhere('f.user2 = :user1 OR f.user2 = :user2')
+            ->setParameters(array('user1' => $user1, 'user2' => $user2))
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    /**
+     * @param User $user1
+     * @param User $user2
      * @return NonUniqueResultException|false|string
      */
     public function checkFriendship(User $user1, User $user2) {
@@ -74,7 +89,7 @@ class FriendshipRepository extends ServiceEntityRepository
      * @return integer
      * @throws NonUniqueResultException
      */
-    public function countPendingRequestsByUser($user) {
+    public function countPendingRequestsByUser(User $user) {
         return $this->createQueryBuilder('f')
             ->select('count(f.user2)')
             ->where('f.user2 = :user')
