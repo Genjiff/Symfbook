@@ -99,6 +99,11 @@ class User implements UserInterface, \Serializable
     private $friendsWithMe;
 
     /**
+     * @var User[]
+     */
+    private $allFriends;
+
+    /**
      * @return integer
      */
     public function getId()
@@ -291,27 +296,44 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @return mixed
+     * @return array
      */
     public function getMyFriends()
     {
-        return $this->myFriends->toArray();
+        $myFriends = array();
+        $friendshipArray = $this->myFriends->toArray();
+
+        /** @var Friendship $myFriend */
+        foreach ($friendshipArray as $myFriend) {
+            array_push($myFriends, $myFriend->getUser2());
+        }
+
+        return $myFriends;
     }
 
     /**
-     * @return mixed
+     * @return array
      */
     public function getFriendsWithMe()
     {
-        return $this->friendsWithMe->toArray();
+        //return $this->friendsWithMe->toArray();
+        $friendsWithMe = array();
+        $friendshipArray = $this->friendsWithMe->toArray();
+
+        /** @var Friendship $friend */
+        foreach ($friendshipArray as $friend) {
+            array_push($friendsWithMe, $friend->getUser1());
+        }
+
+        return $friendsWithMe;
     }
 
     /**
      * @return array
      */
     public function getAllFriends() {
-        $myFriends = $this->myFriends->toArray();
-        $friendsWithMe = $this->friendsWithMe->toArray();
+        $myFriends = $this->getMyFriends();
+        $friendsWithMe = $this->getFriendsWithMe();
 
         return array_merge($myFriends, $friendsWithMe);
     }

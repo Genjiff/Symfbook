@@ -13,6 +13,18 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
+    /**
+     * @param User $user
+     * @return User[]
+     */
+    public function findAllExceptUser(User $user) {
+        return $this->createQueryBuilder('u')
+            ->where('u.id != :user')
+            ->setParameter('user', $user->getId())
+            ->getQuery()
+            ->getResult();
+    }
+
     /*
     public function findBySomething($value)
     {
