@@ -25,6 +25,14 @@
     display: block;
 }
 
+.error-box {
+    margin: 7% auto;
+}
+
+.error-page > .error-content {
+    padding-top: 21px;
+}
+
 .logo {
     position:fixed
 }
